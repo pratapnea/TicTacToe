@@ -54,7 +54,17 @@ public class TicTacToe {
 				position = scan.nextInt();
 				System.out.println();
 				
-				insertCheck(gameBoard, position, user1);
+				if(position <= 0 || position > 9) {
+					System.out.println("Invalid Move");
+					continue;
+				}
+				
+				boolean isVal = insertCheck(gameBoard, position, user1);
+				if(!isVal) {
+					System.out.println("Position has already been used by " + user2 + "\n please enter next position");
+					continue;
+				}
+				
 				flag = false;
 			}
 			else {
@@ -63,7 +73,11 @@ public class TicTacToe {
 				position = scan.nextInt();
 				System.out.println();
 				
-				insertCheck(gameBoard, position, user2);
+				boolean isVal = insertCheck(gameBoard, position, user2);
+				if(!isVal) {
+					System.out.println("Position has already been used by " + user1 + "\n please enter next position");
+					continue;
+				}
 				flag = true;
 			}
 			
@@ -91,53 +105,63 @@ public class TicTacToe {
 	}
 	
 	//method to insert the cross in the desired position
-	public static void insertCheck(char[][] gameBoard, int pos, String user) {
+	public static boolean insertCheck(char[][] gameBoard, int pos, String user) {
 		
-		char symbol = ' ';
+		char symbol = ' ';	
 		
-		if(user.equals(user1)) {
-			user1Position.add(pos);
-			symbol = 'X';
-		}else {
-			user2Position.add(pos);
-			symbol = 'O';
-		}
-		
+		if(user.equals(user1)) symbol = 'X';
+		else symbol = 'O';
 		
 		switch(pos) {
 			case 1:
+				if(gameBoard[0][0] != ' ') return false;
 				gameBoard[0][0] = symbol;
 				break;
 			case 2:
+				if(gameBoard[0][2] != ' ') return false;
 				gameBoard[0][2] = symbol;
 				break;
 			case 3:
+				if(gameBoard[0][4] != ' ') return false;
 				gameBoard[0][4] = symbol;
 				break;
 			case 4:
+				if(gameBoard[2][0] != ' ') return false;
 				gameBoard[2][0] = symbol;
 				break;
 			case 5:
+				if(gameBoard[2][2] != ' ') return false;
 				gameBoard[2][2] = symbol;
 				break;
 			case 6:
+				if(gameBoard[2][4] != ' ') return false;
 				gameBoard[2][4] = symbol;
 				break;
 			case 7:
+				if(gameBoard[4][0] != ' ') return false;
 				gameBoard[4][0] = symbol;
 				break;
 			case 8:
+				if(gameBoard[4][2] != ' ') return false;
 				gameBoard[4][2] = symbol;
 				break;
 			case 9:
+				if(gameBoard[4][4] != ' ') return false;
 				gameBoard[4][4] = symbol;
 				break;
 			default:
 				break;
 		}
 		
+		if(user.equals(user1)) user1Position.add(pos);
+		else user2Position.add(pos);
+		
+		return true;
+		
 	}
 	
+	
+	// method too check winner of the game
 	public static String checkWinner() {
 		
 		List topRow 	= Arrays.asList(1, 2, 3);
@@ -170,6 +194,7 @@ public class TicTacToe {
 		}
 		return "";
 	}
+	
 
 }
 
